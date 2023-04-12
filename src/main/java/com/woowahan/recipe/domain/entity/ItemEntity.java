@@ -13,6 +13,8 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.LAZY;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -37,6 +39,10 @@ public class ItemEntity extends BaseEntity{
     @NotNull
     private Integer itemStock;
 
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "stock_id")
+    private StockEntity stock;
+
     @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<RecipeItemEntity> recipes = new ArrayList<>();
@@ -58,10 +64,6 @@ public class ItemEntity extends BaseEntity{
     public void addItem() {};
 
     /* 비지니스 로직 */
-    public void increaseStock(int quantity) {
-        this.itemStock += quantity;
-    }
-
     public void decreaseStock(int quantity) {
          int restStock = this.itemStock -= quantity;
          if (restStock < 0) {

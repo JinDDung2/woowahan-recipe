@@ -42,13 +42,13 @@ public class OrderItemEntity {
                 .count(count)
                 .build();
 
-        item.decreaseStock(count);
+        item.getStock().decrease(count);
         return orderItem;
     }
 
     /* 비지니스 로직 */
     public void cancel() {
-        getItem().increaseStock(count);
+        getItem().getStock().increase(count);
     }
 
     public int getTotalPrice() {
